@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class WxResource {
 	@GET
 	@Path("/auth/callback")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void wxRedirect(String code, String state, @Context HttpServletRequest request,@Context HttpServletResponse response) throws IOException {
+	public void wxRedirect(@QueryParam("code") String code, @QueryParam("state") String state, @Context HttpServletRequest request, @Context HttpServletResponse response) throws IOException {
 		logger.info("WxResource.wxRedirect({},{})",code,state);
 		if(StringUtils.isNotBlank(code) && StringUtils.isNotBlank(state)) {
 			String redirectUrl = String.valueOf(state);
@@ -118,14 +119,12 @@ public class WxResource {
 	/**
 	 * 获取微信jssdk配置信息
 	 * @param currentUrl
-	 * @param request
-	 * @param response
 	 * @return
 	 */
 	@GET
 	@Path("/jssdk_config")
 	@Produces(MediaType.APPLICATION_JSON)
-	public JsAPISignature queryJsSdkConfig(String currentUrl, HttpServletRequest request, HttpServletResponse response) {
+	public JsAPISignature queryJsSdkConfig(@QueryParam("currentUrl") String currentUrl) {
 		logger.info("WxResource.queryJsSdkConfig({})",currentUrl);
 		try {
 			return wxService.getShareConfigInfo(currentUrl);
