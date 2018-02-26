@@ -71,7 +71,7 @@ public class AuthoricationFilter implements ContainerRequestFilter,ContainerResp
 	private boolean exclude(String uri) {
 		if (excludeUrls != null) {
 			for (String exc : excludeUrls) {
-				if (exc.equals(uri)) {
+				if (uri.contains(exc)) {
 					return true;
 				}
 			}

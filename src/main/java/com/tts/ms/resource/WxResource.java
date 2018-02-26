@@ -86,7 +86,7 @@ public class WxResource {
 					//获取用户信息
 					AccessToken accessToken = wxService.queryAccessTokenByType(WxTokenTypeEnum.ACCESS_TOKEN, sysConfig.getWxAppId());
 					Map<String,Object> userInfoParaMap = new HashMap<>();
-					userInfoParaMap.put("access_token",accessToken);
+					userInfoParaMap.put("access_token",accessToken.getToken());
 					userInfoParaMap.put("openid",openId);
 					userInfoParaMap.put("lang","zh_CN");
 					Map<String, Object> wxUserMap = HTTPUtil.sendGet(sysConfig.getWxUserInfoUrl(),userInfoParaMap);
