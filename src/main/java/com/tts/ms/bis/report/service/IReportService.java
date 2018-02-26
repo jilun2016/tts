@@ -48,9 +48,10 @@ public interface IReportService {
 
     /**
      * 保存报告任务
+     * @param openId
      * @param request
      */
-    Report saveReport(ReportRequest request);
+    Report saveReport(String openId, ReportRequest request);
 
     /**
      * 保存报告任务

@@ -59,6 +59,8 @@ public class AuthoricationFilter implements ContainerRequestFilter,ContainerResp
 			ErrorMessage errorMessage = ErrorCodeMessageUtil.buildErrorMessage(RestErrorCode.WX_NOT_AUTH.code(),wxAuthUrl);
 			requestContext.abortWith(errorMessage.buildUnauthorizedResponse());
 			return ;
+		}else{
+			requestContext.setProperty(CommonConstants.WX_OPEN_ID_COOKIE, cookieFromOpenId.getValue());
 		}
 	}
 

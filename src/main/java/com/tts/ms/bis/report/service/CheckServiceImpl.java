@@ -38,13 +38,13 @@ public class CheckServiceImpl implements ICheckService {
     private AliyunOssService aliyunOssService;
 
     @Override
-    public void checkIn(CheckinRequest request) {
+    public void checkIn(String openId, CheckinRequest request) {
         ReportCheck reportCheck = new ReportCheck();
         reportCheck.setCheckAddress(request.getAddress());
         reportCheck.setCheckEmail(request.getCheckEmail());
         reportCheck.setCheckImage(request.getCheckImage());
         reportCheck.setCreated(DateFormatUtils.getNow());
-        reportCheck.setOpenId(request.getOpenId());
+        reportCheck.setOpenId(openId);
         dao.save(reportCheck);
         //发送邮件
         HashMap<String,Object> checkResultMap = new HashMap<>();

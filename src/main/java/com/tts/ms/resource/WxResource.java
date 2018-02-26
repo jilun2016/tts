@@ -72,7 +72,7 @@ public class WxResource {
 				logger.info("WxResource.wxRedirect resultMap:" + resultMap);
 				if(StringUtils.isNotEmpty(MapUtils.getString(resultMap,"errmsg"))){
 					String errmsg = MapUtils.getString(resultMap,"errmsg","获取授权信息失败");
-					logger.error("VoteController.wxRedirect get token error :" + errmsg);
+					logger.error("WxResource.wxRedirect get token error :" + errmsg);
 					throw new BizCoreRuntimeException(BizErrorConstants.WX_AUTH_TOKEN_ERROR);
 				}else{
 					String openId = MapUtils.getString(resultMap,"openid");

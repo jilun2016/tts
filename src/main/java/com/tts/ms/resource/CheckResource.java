@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
  * 打卡资源处理
  */
 @Path("/check")
-public class CheckResource {
+public class CheckResource extends BaseAuthedResource{
 	
 	private static Logger logger = Logger.getLogger(CheckResource.class);
 
@@ -31,8 +31,8 @@ public class CheckResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkIn(@Valid CheckinRequest request) {
-		logger.debug("CheckResource.checkIn({})", request);
-		checkService.checkIn(request);
+		logger.debug("CheckResource.checkIn({},{})", super.getOpenId(),request);
+		checkService.checkIn(super.getOpenId(),request);
 		return Response.noContent().build();
 	}
 

@@ -11,7 +11,8 @@ public interface ICheckService {
 
     /**
      * 打卡接口
+     * @param openId
      * @param request
      */
-    void checkIn(CheckinRequest request);
+    void checkIn(String openId, CheckinRequest request);
 }

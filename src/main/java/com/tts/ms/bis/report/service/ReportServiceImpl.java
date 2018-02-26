@@ -67,11 +67,11 @@ public class ReportServiceImpl implements IReportService {
     }
 
     @Override
-    public Report saveReport(ReportRequest request) {
+    public Report saveReport(String openId, ReportRequest request) {
         Date now = DateFormatUtils.getNow();
         Report report = new Report();
         report.setCreated(now);
-        report.setOpenId(request.getOpenId());
+        report.setOpenId(openId);
         report.setReportName(request.getReportName());
         dao.save(report);
         return report;

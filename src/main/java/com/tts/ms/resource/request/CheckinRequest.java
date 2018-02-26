@@ -10,12 +10,6 @@ import javax.validation.constraints.NotNull;
 public class CheckinRequest {
 
     /**
-     * openId
-     */
-    @NotNull(message = "openId不允许为空")
-    private String openId;
-
-    /**
      * 打卡发送邮箱
      */
     @NotNull(message = "打卡发送邮箱不允许为空")
@@ -37,14 +31,6 @@ public class CheckinRequest {
      */
     private String checkRemark;
 
-
-    public String getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(String openId) {
-        this.openId = openId;
-    }
 
     public String getCheckEmail() {
         return checkEmail;
@@ -81,7 +67,6 @@ public class CheckinRequest {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CheckinRequest{");
-        sb.append("openId='").append(openId).append('\'');
         sb.append(", checkEmail='").append(checkEmail).append('\'');
         sb.append(", address='").append(address).append('\'');
         sb.append(", checkImage='").append(checkImage).append('\'');

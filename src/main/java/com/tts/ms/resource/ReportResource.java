@@ -9,7 +9,6 @@ import com.tts.ms.exception.BizCoreRuntimeException;
 import com.tts.ms.resource.request.*;
 import com.tts.ms.rest.common.BizErrorConstants;
 import com.xcrm.log.Logger;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.Valid;
@@ -28,7 +27,7 @@ import java.util.Objects;
  * 报告资源
  */
 @Path("/report")
-public class ReportResource {
+public class ReportResource extends BaseAuthedResource{
 	
 	private static Logger logger = Logger.getLogger(ReportResource.class);
 
@@ -37,15 +36,14 @@ public class ReportResource {
 
 	/**
 	 * 获取报告列表
-	 * @param openId
 	 * @return
 	 */
 	@GET
 	@Path("/reports")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Report> queryReports(@NotEmpty(message="openId不能为空") @QueryParam("openId") String openId) {
-		logger.debug("OrderResource.queryReports({})", openId);
-		return reportService.queryReports(openId);
+	public List<Report> queryReports() {
+		logger.debug("OrderResource.queryReports({})", super.getOpenId());
+		return reportService.queryReports(super.getOpenId());
 	}
 
 	/**
@@ -56,8 +54,8 @@ public class ReportResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Report saveReport(@Valid ReportRequest reportRequest) {
-		logger.debug("OrderResource.saveReport({})", reportRequest);
-		return reportService.saveReport(reportRequest);
+		logger.debug("OrderResource.saveReport({},{})",super.getOpenId(),reportRequest);
+		return reportService.saveReport(super.getOpenId(),reportRequest);
 	}
 
 	/**
