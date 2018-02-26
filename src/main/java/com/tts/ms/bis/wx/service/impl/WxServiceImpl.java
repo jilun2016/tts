@@ -1,7 +1,6 @@
 package com.tts.ms.bis.wx.service.impl;
 
 import com.tts.ms.bis.wx.JsAPISignature;
-import com.tts.ms.bis.wx.JsAPIs;
 import com.tts.ms.bis.wx.WxTokenTypeEnum;
 import com.tts.ms.bis.wx.entity.AccessToken;
 import com.tts.ms.bis.wx.sdk.common.decrypt.AesException;
@@ -10,19 +9,15 @@ import com.tts.ms.bis.wx.sdk.common.util.RandomStringGenerator;
 import com.tts.ms.bis.wx.service.IWxService;
 import com.tts.ms.config.SysConfig;
 import com.tts.ms.exception.BizCoreRuntimeException;
-import com.tts.ms.rest.common.CommonConstants;
 import com.xcrm.cloud.database.db.BaseDaoSupport;
 import com.xcrm.cloud.database.db.query.Ssqb;
 import com.xcrm.log.Logger;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URLEncoder;
-import java.sql.Timestamp;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -74,33 +69,6 @@ public class WxServiceImpl implements IWxService {
         String jsTicket = jsToken.getToken();
         long updated = jsToken.getUpdated().getTime();
         long expired = updated + Long.parseLong((jsToken.getExpired() * 1000) + "");
-        long now = System.currentTimeMillis();
-
-        if (expired <= now) {
-            //已经过期了
-            JsAPIs jsAPIs = JsAPIs.with(sysConfig.getWxAccessTokenUrl(),sysConfig.getJsSdkTicketUrl());
-            Map accessTokenMap = jsAPIs.getWxAccessToken(appId, sysConfig.getWxAppSecret());
-            if (MapUtils.isNotEmpty(accessTokenMap)) {
-                String access_token = MapUtils.getString(accessTokenMap, CommonConstants.ACCESS_TOKEN);
-                Integer expires_in = MapUtils.getInteger(accessTokenMap, CommonConstants.EXPIRES_IN);
-
-                Map jsTicketMap = jsAPIs.getWxJsSdkTicket(access_token);
-                if (MapUtils.isNotEmpty(jsTicketMap)) {
-                    jsTicket = MapUtils.getString(jsTicketMap, "ticket");
-
-                    AccessToken accessToken = queryAccessTokenByType(WxTokenTypeEnum.ACCESS_TOKEN, appId);
-                    accessToken.setExpired(expires_in);
-                    accessToken.setToken(access_token);
-                    accessToken.setUpdated(new Timestamp(System.currentTimeMillis()));
-                    updateAccessToken(accessToken);
-
-                    jsToken.setExpired(expires_in);
-                    jsToken.setToken(jsTicket);
-                    jsToken.setUpdated(new Timestamp(System.currentTimeMillis()));
-                    updateAccessToken(jsToken);
-                }
-            }
-        }
         return createJsAPISignature(appId,currentSharePageUrl, jsTicket, expired);
     }
 

@@ -1,6 +1,8 @@
 package com.tts.ms.resource;
 
 import com.tts.ms.bis.wx.JsAPISignature;
+import com.tts.ms.bis.wx.WxTokenTypeEnum;
+import com.tts.ms.bis.wx.entity.AccessToken;
 import com.tts.ms.bis.wx.service.IWxService;
 import com.tts.ms.config.SysConfig;
 import com.tts.ms.exception.BizCoreRuntimeException;
@@ -73,7 +75,6 @@ public class WxResource {
 					logger.error("VoteController.wxRedirect get token error :" + errmsg);
 					throw new BizCoreRuntimeException(BizErrorConstants.WX_AUTH_TOKEN_ERROR);
 				}else{
-					String accessToken = MapUtils.getString(resultMap,"access_token");
 					String openId = MapUtils.getString(resultMap,"openid");
 
 					if(StringUtils.isNotBlank(openId)) {
@@ -83,6 +84,7 @@ public class WxResource {
 					}
 
 					//获取用户信息
+					AccessToken accessToken = wxService.queryAccessTokenByType(WxTokenTypeEnum.ACCESS_TOKEN, sysConfig.getWxAppId());
 					Map<String,Object> userInfoParaMap = new HashMap<>();
 					userInfoParaMap.put("access_token",accessToken);
 					userInfoParaMap.put("openid",openId);
