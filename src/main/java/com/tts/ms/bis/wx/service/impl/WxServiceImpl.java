@@ -45,7 +45,7 @@ public class WxServiceImpl implements IWxService {
         wxAuthUrl.append("?appid=").append(sysConfig.getWxAppId());
         wxAuthUrl.append("&redirect_uri=").append(URLEncoder.encode(sysConfig.getWxCallbackUrl()));
         wxAuthUrl.append("&response_type=code");
-        wxAuthUrl.append("&scope=snsapi_userinfo");
+        wxAuthUrl.append("&scope=snsapi_base");
         String state = URLEncoder.encode(redirectUrl);
         wxAuthUrl.append("&state=").append(state);
         wxAuthUrl.append("#wechat_redirect");
