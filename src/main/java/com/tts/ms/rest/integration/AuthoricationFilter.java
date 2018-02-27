@@ -44,17 +44,17 @@ public class AuthoricationFilter implements ContainerRequestFilter,ContainerResp
 		if (exclude(requestContext.getUriInfo().getPath())){
 			return;
 		}
-		//判断是否微信登录,非微信登陆的话 跳转提示
-		if (!agent.toLowerCase().contains("micromessenger")) {
-			ErrorMessage errorMessage = ErrorCodeMessageUtil.buildErrorMessage(RestErrorCode.UNSUPPORTED_WX_BROWSER);
-			requestContext.abortWith(errorMessage.buildUnauthorizedResponse());
-			return;
-		}
+//		//判断是否微信登录,非微信登陆的话 跳转提示
+//		if (!agent.toLowerCase().contains("micromessenger")) {
+//			ErrorMessage errorMessage = ErrorCodeMessageUtil.buildErrorMessage(RestErrorCode.UNSUPPORTED_WX_BROWSER);
+//			requestContext.abortWith(errorMessage.buildUnauthorizedResponse());
+//			return;
+//		}
 
 		Cookie cookieFromOpenId = CookieUtils.getCookie(requestContext.getCookies(), CommonConstants.WX_OPEN_ID_COOKIE);
 		//如果cookie为空,那么返回未授权,需要重新登录
 		if(Objects.isNull(cookieFromOpenId)){
-			String wxAuthUrl = wxService.buildWxAuthRedirect(sysConfig.getWxRedirectUrl());
+			String wxAuthUrl = wxService.buildWxAuthRedirect("WxRedirectUrl");
 			logger.info("AuthoricationFilter login redirectUrl :{},wxAuthUrl :{}",wxAuthUrl);
 			ErrorMessage errorMessage = ErrorCodeMessageUtil.buildErrorMessage(RestErrorCode.WX_NOT_AUTH.code(),wxAuthUrl);
 			requestContext.abortWith(errorMessage.buildUnauthorizedResponse());
