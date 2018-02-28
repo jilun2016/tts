@@ -28,14 +28,11 @@ public class AuthoricationFilter implements ContainerRequestFilter,ContainerResp
 	
 	private static Logger logger = Logger.getLogger(AuthoricationFilter.class);
 
-	private String[] excludeUrls = {"/auth/callback"};
+	private String[] excludeUrls = {"/auth/callback","/wx/jssdk_config"};
 
 	@Autowired
 	private IWxService wxService;
 
-	@Autowired
-	private SysConfig sysConfig;
-	
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		String agent = requestContext.getHeaderString("user-agent");
@@ -44,12 +41,12 @@ public class AuthoricationFilter implements ContainerRequestFilter,ContainerResp
 		if (exclude(requestContext.getUriInfo().getPath())){
 			return;
 		}
-//		//判断是否微信登录,非微信登陆的话 跳转提示
-//		if (!agent.toLowerCase().contains("micromessenger")) {
-//			ErrorMessage errorMessage = ErrorCodeMessageUtil.buildErrorMessage(RestErrorCode.UNSUPPORTED_WX_BROWSER);
-//			requestContext.abortWith(errorMessage.buildUnauthorizedResponse());
-//			return;
-//		}
+		//判断是否微信登录,非微信登陆的话 跳转提示
+		if (!agent.toLowerCase().contains("micromessenger")) {
+			ErrorMessage errorMessage = ErrorCodeMessageUtil.buildErrorMessage(RestErrorCode.UNSUPPORTED_WX_BROWSER);
+			requestContext.abortWith(errorMessage.buildUnauthorizedResponse());
+			return;
+		}
 
 		Cookie cookieFromOpenId = CookieUtils.getCookie(requestContext.getCookies(), CommonConstants.WX_OPEN_ID_COOKIE);
 		//如果cookie为空,那么返回未授权,需要重新登录
