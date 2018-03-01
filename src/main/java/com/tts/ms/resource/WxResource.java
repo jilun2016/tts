@@ -81,6 +81,8 @@ public class WxResource {
 						logger.info("get openId from wx and save it to cookie, openId is ={}" ,openId);
 						CookieUtils.addCookie(request, response, CommonConstants.WX_OPEN_ID_COOKIE
 								, openId, null, sysConfig.getTtsCookieHost());
+						logger.info("WxResource reirect url:" + redirectUrl);
+						response.sendRedirect(response.encodeRedirectURL(redirectUrl));
 					}
 				}
 			}

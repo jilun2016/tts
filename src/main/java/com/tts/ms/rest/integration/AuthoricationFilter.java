@@ -37,7 +37,7 @@ public class AuthoricationFilter implements ContainerRequestFilter,ContainerResp
 	
 	private static Logger logger = Logger.getLogger(AuthoricationFilter.class);
 
-	private String[] excludeUrls = {"/auth/callback","/wx/jssdk_config"};
+	private String[] excludeUrls = {"auth/callback","wx/jssdk_config"};
 
 	@Autowired
 	private SysConfig sysConfig;
@@ -50,6 +50,8 @@ public class AuthoricationFilter implements ContainerRequestFilter,ContainerResp
 		String agent = requestContext.getHeaderString("user-agent");
 
 		//授权回调排除
+		logger.info("requestContext.getUriInfo().toString() :{}",requestContext.getUriInfo().toString());
+		logger.info("requestContext.getUriInfo().getPath() :{}",requestContext.getUriInfo().getPath());
 		if (exclude(requestContext.getUriInfo().getPath())){
 			return;
 		}
