@@ -22,7 +22,12 @@ public enum RestErrorCode {
 
 	UNSUPPORTED_WX_BROWSER("1010", "Unsupported Browser"),
 
-	WX_NOT_AUTH("1011", "");
+	WX_NOT_AUTH("1011", ""),
+
+	WX_AUTH_USER_INFO_ERROR("1012", "获取微信用户信息失败"),
+
+	WX_AUTH_USER_NO_SUBSCRIBE("1013", "微信用户未关注公众号");
+
 
 	private final String code;
     private final String reason;

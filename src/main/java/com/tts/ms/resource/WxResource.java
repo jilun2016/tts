@@ -82,38 +82,7 @@ public class WxResource {
 						CookieUtils.addCookie(request, response, CommonConstants.WX_OPEN_ID_COOKIE
 								, openId, null, sysConfig.getTtsCookieHost());
 					}
-
-					//获取用户信息
-					AccessToken accessToken = wxService.queryAccessTokenByType(WxTokenTypeEnum.ACCESS_TOKEN, sysConfig.getWxAppId());
-					Map<String,Object> userInfoParaMap = new HashMap<>();
-					userInfoParaMap.put("access_token",accessToken.getToken());
-					userInfoParaMap.put("openid",openId);
-					userInfoParaMap.put("lang","zh_CN");
-					Map<String, Object> wxUserMap = HTTPUtil.sendGet(sysConfig.getWxUserInfoUrl(),userInfoParaMap);
-
-					if(MapUtils.isNotEmpty(wxUserMap)){
-						if(wxUserMap.containsKey("errmsg")){
-							String errmsg = MapUtils.getString(wxUserMap,"errmsg","获取用户信息失败");
-							logger.error("WxResource.queryWxUser occurs error.redirectUrl:{},openId:{},userInfoParaMap:{},errmsg:{}",
-									redirectUrl,openId,userInfoParaMap,errmsg);
-							throw new BizCoreRuntimeException(BizErrorConstants.WX_AUTH_USER_INFO_ERROR);
-						}
-						logger.info("WxResource.queryWxUser user:" + wxUserMap);
-						//如果没有授权,那么返回未授权code
-						Boolean subscribe = MapUtils.getBoolean(wxUserMap,"subscribe");
-						if(BooleanUtils.isFalse(subscribe)){
-							throw new BizCoreRuntimeException(BizErrorConstants.WX_AUTH_USER_NO_SUBSCRIBE);
-						}
-						logger.info("WxResource reirect url:" + redirectUrl);
-						response.sendRedirect(response.encodeRedirectURL(redirectUrl));
-
-					}else{
-						logger.error("WxResource.queryWxUser occurs error.redirectUrl:{},openId:{},userInfoParaMap:{}",
-								redirectUrl,openId,userInfoParaMap);
-						throw new BizCoreRuntimeException(BizErrorConstants.WX_AUTH_USER_INFO_ERROR);
-					}
 				}
-
 			}
 		}
 	}

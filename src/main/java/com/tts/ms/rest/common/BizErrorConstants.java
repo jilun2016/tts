@@ -18,16 +18,6 @@ public interface BizErrorConstants {
 	String WX_AUTH_TOKEN_ERROR = "T100002";
 
 	/**
-	 * 获取微信用户信息失败
-	 */
-	String WX_AUTH_USER_INFO_ERROR = "T100003";
-
-	/**
-	 * 微信用户未关注公众号
-	 */
-	String WX_AUTH_USER_NO_SUBSCRIBE = "T100004";
-
-	/**
 	 * 获取配置信息错误
 	 */
 	String WX_JSDK_CONFIG_ERROR = "T100005";
