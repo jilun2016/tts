@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jlt.tts.caculate" >
+
+    <select id="caculateAqlSample" resultType="com.tts.ms.bis.report.vo.AqlCaculateResultVo">
+        SELECT tbas.aqlLevel,tbas.sampleSize,tbas.acceptValue,tbas.rejectionValue
+        FROM t_b_aql_level tbl
+        LEFT JOIN t_b_aql_sample tbas ON tbl.aqlKey = tbas.simpleCode
+        WHERE tbl.aqlLevel = #{caculateType} AND tbl.fromLotSize &lt;= #{shippingSize} AND tbl.toLotSize &gt;= #{shippingSize}
+        AND tbas.aqlLevel IN (#{majorValue},#{minorValue})
+        ORDER BY tbas.aqlLevel ASC
+    </select>
+</mapper>
